@@ -1,0 +1,40 @@
+\usepackage{pgfplots}
+\usepackage{xargs}
+
+%-----------------------------------------------------------------
+% \plotCsv{filepath}[start][end]
+%
+% start: the x value to start at
+%
+% end: the x value to end at
+%
+% both start and end are optional. if none of them are specified
+% the whole csv is plotted
+% 
+% plot csv files. right now it expects first column to be x-axis 
+% and second colum to be y-axis.
+%-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+\NewDocumentCommand\plotCsv{ +m +O{x} +O{x} }{
+\begin{tikzpicture}\begin{axis}[
+enlarge x limits=false,
+enlarge y limits=false,
+no markers,
+scale only axis,
+width=\textwidth,
+xticklabel style={rotate= 90},
+grid= both,
+]
+\addplot[line width=1pt, red, 
+    x filter/.expression={((x >= #2 && x<=#3 ) ? \pgfmathresult : NaN)}
+] table [x index=0, y index=1, col sep=comma] {#1};
+\end{axis}
+\end{tikzpicture}
+}
